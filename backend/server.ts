@@ -1,5 +1,5 @@
-import { app } from './src/App'
+import { serverHttp } from './src/App'
 
 const port = 10010
 
-app.listen(port, () => console.log(`🚀Server is running ${port}`))
+serverHttp.listen(port, () => console.log(`🚀Server is running ${port}`))
