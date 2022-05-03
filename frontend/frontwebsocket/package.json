@@ -3,13 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host --port 3015",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "pm2 start ./dist/server.js --name frontend-dashbord-ecommerce -l -o out.log"
   },
   "dependencies": {
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "socket.io-client": "^4.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

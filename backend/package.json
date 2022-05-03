@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev server.ts"
+    "dev": "ts-node-dev server2.ts"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
@@ -13,6 +13,7 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
+    "@types/socket.io": "^3.0.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "socket.io": "^4.5.0"
