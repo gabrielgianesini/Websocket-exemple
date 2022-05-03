@@ -1,12 +1,11 @@
 {
-  "name": "frontwebsocket",
+  "name": "frontend",
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --host --port 3015",
+    "dev": "vite --port 5001",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "deploy": "pm2 start ./dist/server.js --name frontend-dashbord-ecommerce -l -o out.log"
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.0.0",
@@ -18,6 +17,6 @@
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^1.3.0",
     "typescript": "^4.6.3",
-    "vite": "^2.9.5"
+    "vite": "^2.9.7"
   }
 }
