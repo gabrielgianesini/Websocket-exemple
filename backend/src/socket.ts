@@ -6,9 +6,11 @@ io.on('connection',(socket)=>{
 
   socket.on('infoEvent', (information) => {
       console.log(`Information received: ${information}`)
-      io.sockets.emit('infoEvent', information)
+      socket.emit('infoEventResult', information)
+      
   })
   socket.on('disconnect', () => {
       console.log('User disconnected')
   })
 })
+

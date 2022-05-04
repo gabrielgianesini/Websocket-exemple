@@ -1,5 +1,4 @@
 import { memo, useContext } from "react";
-import { io } from "socket.io-client";
 import { SocketContext } from "../provider/websocket";
 
 
@@ -10,6 +9,7 @@ const { socket } = useContext(SocketContext);
       socket.emit('infoEvent', 'ENVIO TESTE')
     }
         
+    socket.on('infoEventResult',console.log)
   return<>
      <button style={{fontSize: "30px",padding: "40px"}} onClick={handleSocket}>Send</button>
   </>
