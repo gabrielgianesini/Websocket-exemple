@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect } from "react";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import { io, ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
 
 
@@ -16,6 +16,7 @@ interface sockerProps{
 export const SocketContext = createContext({} as sockerProps)
 
 export const SocketProvider = ({ children}: WebSocketContextProps) =>{
+
 
   return(
     <SocketContext.Provider value={{socket}} >

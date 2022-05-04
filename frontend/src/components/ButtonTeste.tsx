@@ -1,17 +1,27 @@
-import { memo, useContext } from "react";
+import { memo, useContext, useEffect,  } from "react";
+import { Socket } from "socket.io-client";
 import { SocketContext } from "../provider/websocket";
 
+interface socketProps{
+  socket: Socket;
+}
 
-export function ButtonTeste () {
-const { socket } = useContext(SocketContext);
+
+export function ButtonTeste ({socket}: socketProps) {
+
+  useEffect(() => {
+    socket.on("receive_ok", (data) => {console.log(data)});
+  }, [socket]); 
 
     const handleSocket = () =>{
       socket.emit('infoEvent', 'ENVIO TESTE')
     }
-        
-    socket.on('infoEventResult',console.log)
-  return<>
-     <button style={{fontSize: "30px",padding: "40px"}} onClick={handleSocket}>Send</button>
-  </>
+
+  return<div>
+     <button style={{fontSize: "30px",padding: "40px"}} 
+     onClick={handleSocket}>Send</button>
+  </div>
+
+
 }
 
