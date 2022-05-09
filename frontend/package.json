@@ -11,7 +11,8 @@
     "express": "^4.18.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "socket.io-client": "^4.5.0"
+    "socket.io-client": "^4.5.0",
+    "socket.io-file-stream": "^0.3.7-ts"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

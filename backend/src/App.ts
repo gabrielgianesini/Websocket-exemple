@@ -21,7 +21,7 @@ app.use(express.json({}))
 const serverHttp = http.createServer(app)
 
 
-const io = new Server(serverHttp);
+const io = new Server(serverHttp,  {maxHttpBufferSize: 1e16}, );
 
 export { serverHttp, io, port }
 
