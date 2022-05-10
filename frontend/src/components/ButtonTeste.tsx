@@ -25,25 +25,28 @@ export function ButtonTeste ({socket}: socketProps) {
       setFileName(e.target.files[0]?.name)
     }
 
-    const sendSocketCSV = ()=>{
-      socket.emit('filecsv', {file, fileName })
+    const sendSocketCSV = async ()=>{
+
+      socket.emit('filecsv', file)
     }
   return(
   <div style={{display: 'flex', flexDirection: 'column', padding: "40px", }}>
-     <button style={{fontSize: "30px",padding: "40px"}} 
+     <text style={{fontSize: "20px"}}>Envio teste socket</text>
+     <button style={{fontSize: "30px", height: "50px", width: "100px"}} 
      onClick={handleSocket}>Send</button>
      <div  style={{ display: 'flex',  marginTop: "20px",height: "50px", flexDirection: 'column',justifyContent: "space-between"}}>
+     <text style={{fontSize: "20px"}}>Envio teste file socket</text>
       <input
       type="file" 
       name="file" 
       id="file" 
-      accept=".csv"
       onChange={sendCsv}
       ref={submitRef}  
+      style={{paddingTop: "20px", paddingBottom: "40px"}}
       />
       <div>
         <button onClick={sendSocketCSV}>
-          Send CSV
+          Send File
         </button>
       </div>
      </div>
