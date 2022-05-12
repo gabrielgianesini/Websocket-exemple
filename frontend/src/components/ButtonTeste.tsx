@@ -1,7 +1,6 @@
-import { ChangeEvent, MutableRefObject, useEffect, useRef, useState,  } from "react";
-import { SocketContext } from "../provider/websocket";
-import { ClientWeb } from 'socket.io-file-stream'
+import {  useEffect, useRef, useState,  } from "react";
 import { Socket } from "socket.io-client"
+import { Button, Flex, Text } from '@chakra-ui/react'
 
 interface socketProps{
   socket: typeof Socket
@@ -10,32 +9,33 @@ interface socketProps{
 
 export function ButtonTeste ({socket}: socketProps) {
   const submitRef = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState()
-  const [fileName, setFileName] = useState()
+  const [files, setFiles] = useState<any>([])
+  //const [fileName, setFileName] = useState()
   useEffect(() => {
     socket.on("receive_ok", (data: any) => {console.log(data)});
   }, [socket]); 
-
     const handleSocket = () =>{
       socket.emit('infoEvent', 'ENVIO TESTE')
     }
-
-    const sendCsv = (e: ChangeEvent<EventTarget | any>) =>{
-      setFile(e.target.files[0])
-      setFileName(e.target.files[0]?.name)
+    const sendCsv = (e: any) =>{
+      const newfile = Object.entries(e.target.files).map(filelist => filelist[1])
+      setFiles(newfile)
+     //setFileName(e.target.files[0]?.name)
     }
-
     const sendSocketCSV = async ()=>{
+      console.log(files)
 
-      socket.emit('filecsv', file)
+      files.map((file: any) =>{
+        socket.emit('filecsv', file, file.name)
+      })   
     }
   return(
-  <div style={{display: 'flex', flexDirection: 'column', padding: "40px", }}>
-     <text style={{fontSize: "20px"}}>Envio teste socket</text>
-     <button style={{fontSize: "30px", height: "50px", width: "100px"}} 
-     onClick={handleSocket}>Send</button>
+  <Flex style={{display: 'flex', flexDirection: 'column', padding: "40px", }}>
+     <Text style={{fontSize: "20px"}}>Envio teste socket</Text>
+     <Button style={{fontSize: "30px", height: "50px", width: "100px"}} 
+     onClick={handleSocket}>Send</Button>
      <div  style={{ display: 'flex',  marginTop: "20px",height: "50px", flexDirection: 'column',justifyContent: "space-between"}}>
-     <text style={{fontSize: "20px"}}>Envio teste file socket</text>
+     <p style={{fontSize: "20px"}}>Envio teste file socket</p>
       <input
       type="file" 
       name="file" 
@@ -43,6 +43,7 @@ export function ButtonTeste ({socket}: socketProps) {
       onChange={sendCsv}
       ref={submitRef}  
       style={{paddingTop: "20px", paddingBottom: "40px"}}
+      multiple
       />
       <div>
         <button onClick={sendSocketCSV}>
@@ -50,7 +51,7 @@ export function ButtonTeste ({socket}: socketProps) {
         </button>
       </div>
      </div>
-  </div>
+  </Flex>
 )
 
 }
