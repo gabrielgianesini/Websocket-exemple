@@ -14,9 +14,11 @@ export function ButtonTeste ({socket}: socketProps) {
   useEffect(() => {
     socket.on("receive_ok", (data: any) => {console.log(data)});
   }, [socket]); 
+
     const handleSocket = () =>{
       socket.emit('infoEvent', 'ENVIO TESTE')
     }
+    
     const sendCsv = (e: any) =>{
       const newfile = Object.entries(e.target.files).map(filelist => filelist[1])
       setFiles(newfile)
@@ -34,6 +36,10 @@ export function ButtonTeste ({socket}: socketProps) {
      <Text style={{fontSize: "20px"}}>Envio teste socket</Text>
      <Button style={{fontSize: "30px", height: "50px", width: "100px"}} 
      onClick={handleSocket}>Send</Button>
+
+
+
+
      <div  style={{ display: 'flex',  marginTop: "20px",height: "50px", flexDirection: 'column',justifyContent: "space-between"}}>
      <p style={{fontSize: "20px"}}>Envio teste file socket</p>
       <input

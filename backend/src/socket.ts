@@ -13,7 +13,6 @@ io.on("connection", (socket: any) => {
   console.log("New user connected. " + socket.id);
 
     socket.on("filecsv", async (file: any, filename: string) => {
-      console.log(filename)
       const uuid = uuidv4();
       const filepath = { path: `temp\\${uuid}` };
       return new Promise((resolver, reject) => {
@@ -27,25 +26,29 @@ io.on("connection", (socket: any) => {
       });
     });
 
-    socket.on("infoEvent", (information: any) => {
+    socket.on("infoEvent", (information: string) => {
       console.log(`Information received: ${information} ${socket.id}`);
       socket.emit("receive_ok", "true");
     });
 
-    socket.on("file", (file: any) => {
+    socket.on("file", (file: any, idRequest: string) => {
       console.log(`Information received: ${socket.id}`);
       let load = 0
+      const time = Math.floor(Math.random() * (30000 - 10000)) + 10000
       readingCsv(file)
-      setTimeout(()=>{
-        setTimeout(()=>{
-          load=+10
-          socket.emit("load", load);
-        })
-      },10000)
-      socket.emit("sentfile", true);
+       const id = setInterval(()=>{
+          load+=10
+          socket.emit("load", load, idRequest);
+        },time/11)
+        setTimeout(()=> {
+          clearInterval(id)
+          socket.emit("sent", idRequest);
+        },time)
+
+      
     });
 
 socket.on("disconnect", () => {
-  console.log(`User disconnected: ${socket.id}`);
+  console.log(`User disconnected: ${socket.id} *************************`);
 });
 });

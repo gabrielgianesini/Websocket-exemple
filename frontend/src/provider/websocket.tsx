@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect } from "react";
-import { io, ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
+import io, { Socket } from 'socket.io-client';
 
 
 interface WebSocketContextProps{
@@ -10,7 +10,7 @@ let socket = io('http://172.25.95.75:3010',{transports: ['websocket'],
                 });
 
 interface sockerProps{
-  socket: Socket
+  socket: typeof Socket
 }
 
 export const SocketContext = createContext({} as sockerProps)

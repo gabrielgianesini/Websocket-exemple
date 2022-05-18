@@ -7,11 +7,11 @@ interface HTMLInputEvent extends ChangeEvent {
   target: HTMLInputElement & EventTarget 
 }
 
-interface ItensInLoadType {
+export interface ItensInLoadType {
+  id: string
   name: string
-  connection: typeof Socket
-  sendStatus: boolean
-  percent: number
+  connection: string//typeof Socket
+  sending: boolean
 }
 
  export function SendFile(){
@@ -19,33 +19,37 @@ interface ItensInLoadType {
   const [files, setFiles] = useState<File[]>()
   const [itemInLoad, setItemInLoad] = useState<ItensInLoadType[]>([])
 
-  const sendWithLoad = (newfile: File) => {
+  /* const sendWithLoad = (newfile: File, id: string) => {
     const connection = io('http://172.25.95.75:3010',{transports: ['websocket']});
     connection.emit("file", newfile)
     return connection
-   } 
+   } */ 
   const setNewFile = (e: HTMLInputEvent) => {
     const newfile = Object.entries(e.target.files!).map(filelist => filelist[1])
     setFiles(newfile)
   } 
   const onItemInLoad = async () =>{
    const itens = files?.map<ItensInLoadType>(file => {
+     const id = Math.floor(Date.now() * Math.random()).toString(36)
       const iten = {
-        name: file.name,
-        connection: sendWithLoad(file),
-        sendStatus: true,
-        percent: 0
+        id: id,
+        name: file.name.length > 23 ? `${file.name.substring(0,14)}...${file.name.slice(-7)}`: file.name,
+        connection: 'ok',//sendWithLoad(file,id),
+        sending: true
+
       }
       return iten
     })
     setItemInLoad(prev => [...prev,...itens!])
   }
-  useEffect(()=>{
+ /*  useEffect(() => {
     console.log(itemInLoad)
   },[itemInLoad])
 
+ */
+
   return (
-    <Flex mt="60px" ml={10} flexDirection="column" >
+    <Flex mt="20px" ml={10} flexDirection="column" >
       <Text>Novo Envio com load</Text>
       <Input 
         type="file" 
@@ -56,8 +60,7 @@ interface ItensInLoadType {
       />
       <Button onClick={onItemInLoad} w={100} mt={5}>Send</Button>
       {
-        itemInLoad?.length > 0  && 
-        itemInLoad.map((iten, i) =>  iten.sendStatus ? <LoadTest key={i} name={iten.name} percent={iten.percent} socket={iten.connection} /> : <></>)
+        itemInLoad.map((iten, i) =>  iten.sending===true ? <LoadTest key={i} id={iten.id} name={iten.name}  socket={iten.connection} itemInLoad={itemInLoad}  setItemInLoad={setItemInLoad} /> : <></>)
       }
     </Flex>
   )
