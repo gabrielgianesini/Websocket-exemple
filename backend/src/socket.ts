@@ -20,6 +20,7 @@ io.on("connection", (socket: any) => {
           if (err) {
             return reject(err);
           } else {
+            fs.unlink(filepath.path,(err)=>{ if(err)console.log(err)}) 
             return resolver(filepath);
           }
         });
@@ -31,18 +32,18 @@ io.on("connection", (socket: any) => {
       socket.emit("receive_ok", "true");
     });
 
-    socket.on("file", (file: any, idRequest: string) => {
+    socket.on("file", async (file: any, idRequest: string) => {
       console.log(`Information received: ${socket.id}`);
       let load = 0
       const time = Math.floor(Math.random() * (30000 - 10000)) + 10000
-      readingCsv(file)
+      await readingCsv(file)
        const id = setInterval(()=>{
           load+=10
           socket.emit("load", load, idRequest);
         },time/11)
         setTimeout(()=> {
           clearInterval(id)
-          socket.emit("sent", idRequest);
+          socket.disconnect();
         },time)
 
       

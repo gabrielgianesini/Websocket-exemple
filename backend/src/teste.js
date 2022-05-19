@@ -1,1 +1,0 @@
-console.log( Math.floor(Math.random() * (30000 - 10000)) + 10000)

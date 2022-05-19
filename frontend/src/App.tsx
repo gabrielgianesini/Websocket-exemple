@@ -3,8 +3,6 @@ import {ButtonTeste} from './components/ButtonTeste';
 import { LoadTest } from './components/LoadTest';
 import { SendFile } from './components/SendFile';
 
-
-
 //const socket = io('http://172.25.95.75:3010', {transports: ['websocket']});
 
 function App() {

@@ -10,7 +10,7 @@ interface HTMLInputEvent extends ChangeEvent {
 export interface ItensInLoadType {
   id: string
   name: string
-  connection: string//typeof Socket
+  connection: typeof Socket
   sending: boolean
 }
 
@@ -19,11 +19,11 @@ export interface ItensInLoadType {
   const [files, setFiles] = useState<File[]>()
   const [itemInLoad, setItemInLoad] = useState<ItensInLoadType[]>([])
 
-  /* const sendWithLoad = (newfile: File, id: string) => {
+  const sendWithLoad = (newfile: File, id: string) => {
     const connection = io('http://172.25.95.75:3010',{transports: ['websocket']});
     connection.emit("file", newfile)
     return connection
-   } */ 
+   } 
   const setNewFile = (e: HTMLInputEvent) => {
     const newfile = Object.entries(e.target.files!).map(filelist => filelist[1])
     setFiles(newfile)
@@ -34,7 +34,7 @@ export interface ItensInLoadType {
       const iten = {
         id: id,
         name: file.name.length > 23 ? `${file.name.substring(0,14)}...${file.name.slice(-7)}`: file.name,
-        connection: 'ok',//sendWithLoad(file,id),
+        connection: sendWithLoad(file,id),
         sending: true
 
       }
@@ -42,11 +42,10 @@ export interface ItensInLoadType {
     })
     setItemInLoad(prev => [...prev,...itens!])
   }
- /*  useEffect(() => {
+  useEffect(() => {
     console.log(itemInLoad)
   },[itemInLoad])
 
- */
 
   return (
     <Flex mt="20px" ml={10} flexDirection="column" >
@@ -60,7 +59,7 @@ export interface ItensInLoadType {
       />
       <Button onClick={onItemInLoad} w={100} mt={5}>Send</Button>
       {
-        itemInLoad.map((iten, i) =>  iten.sending===true ? <LoadTest key={i} id={iten.id} name={iten.name}  socket={iten.connection} itemInLoad={itemInLoad}  setItemInLoad={setItemInLoad} /> : <></>)
+        itemInLoad.map((iten, i) =>  <LoadTest key={i} id={iten.id} name={iten.name}  socket={iten.connection} />)
       }
     </Flex>
   )
